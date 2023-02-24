@@ -1,4 +1,18 @@
 # -*- coding: utf-8 -*-
+"""
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+   http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 
 from resource_management import *
 from resource_management.core.exceptions import ClientComponentHasNoStatus
@@ -33,7 +47,7 @@ class FlinkMaster(Script):
                  )
 
         Logger.info('Creating Flink install directory')
-        Directory([params.flink_base_dir],
+        Directory([params.stack_base_dir],
                   mode=0755,
                   cd_access='a',
                   owner=params.flink_user,
@@ -42,15 +56,15 @@ class FlinkMaster(Script):
                   )
 
         Logger.info('Downloading Flink binaries')
-        Execute("cd {0}; wget {1} -O flink.tar.gz".format(params.flink_base_dir, params.flink_download_url),
+        Execute("cd {0}; wget {1} -O flink.tar.gz".format(params.stack_base_dir, params.flink_download_url),
                 user=params.flink_user)
 
         Logger.info('Extracting Flink binaries')
-        Execute("cd {0}; tar -zxvf flink.tar.gz".format(params.flink_base_dir), user=params.flink_user)
-        File(os.path.join(params.flink_base_dir, "flink.tar.gz"), action='delete')
+        Execute("cd {0}; tar -zxvf flink.tar.gz".format(params.stack_base_dir), user=params.flink_user)
+        File(os.path.join(params.stack_base_dir, "flink.tar.gz"), action='delete')
 
         Logger.info('Modify log folder access permissions')
-        Execute("cd {0}; chmod 777 log".format(os.path.join(params.flink_base_dir, params.flink_dir_name)), user=params.flink_user)
+        Execute("cd {0}; chmod 777 log".format(os.path.join(params.stack_base_dir, params.FLINK_DIR_NAME)), user=params.flink_user)
 
         Logger.info('Creating symbolic links')
         create_symbolic_link()
@@ -77,7 +91,7 @@ class FlinkMaster(Script):
         self.configure(env)
 
         Logger.info('Starting Flink yarn session')
-        cmd = get_start_yarn_session_cmd(params.flink_base_dir, params.flink_yarn_session_name,
+        cmd = get_start_yarn_session_cmd(params.stack_base_dir, params.flink_yarn_session_name,
                                          params.job_manager_heap_size, params.task_manager_heap_size, params.slot_count)
         Execute(cmd, user=params.flink_user)
 
@@ -93,44 +107,53 @@ class FlinkMaster(Script):
         Logger.info('Configuring Flink')
         env.set_params(params)
 
-        File("{0}/{1}/conf/flink-conf.yaml".format(params.flink_base_dir, FLINK_DIR_NAME),
+        File("{0}/{1}/conf/flink-conf.yaml".format(params.stack_base_dir, FLINK_DIR_NAME),
              content=Template("flink-conf.yaml.j2"),
              owner=params.flink_user,
              group=params.flink_group
              )
 
 
-        if (params.log4j_props != None):
+        if params.log4j_props is not None:
             Logger.info('log4j_props is not empty!')
             Logger.info('Creating log4j.properties')
-            File(os.path.join(params.flink_base_dir, FLINK_DIR_NAME, "conf/log4j.properties"),
+            File(os.path.join(params.stack_base_dir, FLINK_DIR_NAME, "conf/log4j.properties"),
                  owner=params.flink_user,
                  group=params.flink_group,
                  content=params.log4j_props
-            )
-        elif (os.path.exists(os.path.join(params.flink_base_dir, FLINK_DIR_NAME, "conf/log4j.properties"))):
+                 )
+        elif os.path.exists(os.path.join(params.stack_base_dir, FLINK_DIR_NAME, "conf/log4j.properties")):
             Logger.info('log4j_props is empty!')
             Logger.info('Creating log4j.properties')
-            File(os.path.join(params.flink_base_dir, FLINK_DIR_NAME, "conf/log4j.properties"),
+            File(os.path.join(params.stack_base_dir, FLINK_DIR_NAME, "conf/log4j.properties"),
                  owner=params.flink_user,
                  group=params.flink_group
-            )
+                 )
 
-        if (params.log4j_cli_props != None):
+        if params.log4j_cli_props is not None:
             Logger.info('log4j_cli_props is not empty!')
             Logger.info('Creating log4j-cli.properties')
-            File(os.path.join(params.flink_base_dir, FLINK_DIR_NAME, "conf/log4j-cli.properties"),
+            File(os.path.join(params.stack_base_dir, FLINK_DIR_NAME, "conf/log4j-cli.properties"),
                  owner=params.flink_user,
                  group=params.flink_group,
                  content=params.log4j_cli_props
-            )
-        elif (os.path.exists(os.path.join(params.flink_base_dir, FLINK_DIR_NAME, "conf/log4j-cli.properties"))):
+                 )
+        elif os.path.exists(os.path.join(params.stack_base_dir, FLINK_DIR_NAME, "conf/log4j-cli.properties")):
             Logger.info('log4j_cli_props is empty!')
             Logger.info('Creating log4j-cli.properties')
-            File(os.path.join(params.flink_base_dir, FLINK_DIR_NAME, "conf/log4j-cli.properties"),
+            File(os.path.join(params.stack_base_dir, FLINK_DIR_NAME, "conf/log4j-cli.properties"),
                  owner=params.flink_user,
                  group=params.flink_group
-            )
+                 )
+
+
+    def start_yarn_session(self, env):
+        pass
+
+
+    def stop_yarn_session(self, env):
+        pass
+
 
 if __name__ == '__main__':
     FlinkMaster().execute()

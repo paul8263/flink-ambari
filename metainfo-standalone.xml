@@ -23,9 +23,9 @@
             <version>1.13.2</version>
             <components>
                 <component>
-                    <name>FLINK_CLIENT</name>
-                    <displayName>Flink Client</displayName>
-                    <category>CLIENT</category>
+                    <name>FLINK_MASTER</name>
+                    <displayName>JobManager</displayName>
+                    <category>MASTER</category>
                     <cardinality>1+</cardinality>
                     <versionAdvertised>true</versionAdvertised>
                     <commandScript>
@@ -57,6 +57,24 @@
                         </configFile>
                     </configFiles>
                 </component>
+                <component>
+                    <name>FLINK_SLAVE</name>
+                    <displayName>TaskManager</displayName>
+                    <category>SLAVE</category>
+                    <cardinality>1+</cardinality>
+                    <versionAdvertised>true</versionAdvertised>
+                    <commandScript>
+                        <script>scripts/flink_slave.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1200</timeout>
+                    </commandScript>
+                    <logs>
+                        <log>
+                            <logId>flink_slave</logId>
+                            <primary>true</primary>
+                        </log>
+                    </logs>
+                </component>
             </components>
 
             <supportOSandArch>CentOS7-x86_64,CentOS7-aarch64,Kylin10-aarch64,Kylinx10-x86_64,KUX5-x86_64</supportOSandArch>
@@ -70,7 +88,11 @@
                     </packages>
                 </osSpecific>
             </osSpecifics>
-
+            <commandScript>
+                <script>scripts/service_check.py</script>
+                <scriptType>PYTHON</scriptType>
+                <timeout>300</timeout>
+            </commandScript>
             <requiredServices>
                 <service>YARN</service>
             </requiredServices>
@@ -82,6 +104,13 @@
             </configuration-dependencies>
 
             <restartRequiredAfterChange>true</restartRequiredAfterChange>
+
+            <quickLinksConfigurations>
+                <quickLinksConfiguration>
+                    <fileName>quicklinks.json</fileName>
+                    <default>true</default>
+                </quickLinksConfiguration>
+            </quickLinksConfigurations>
 
         </service>
     </services>

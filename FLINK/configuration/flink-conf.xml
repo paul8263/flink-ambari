@@ -15,25 +15,25 @@
    limitations under the License.
 -->
 <configuration supports_adding_forbidden="true">
-<!--    <property>
-        <name>flink_base_dir</name>
-        <value>/opt/flink</value>
-        <display-name>Flink install path</display-name>
-        <description>Flink 安装路径</description>
-    </property>-->
+    <property>
+        <name>flink_download_url</name>
+        <value>{{flink_download_url}}</value>
+        <display-name>Flink installation path</display-name>
+        <description>Flink installation path</description>
+    </property>
 
     <property>
         <name>flink_group</name>
         <value>flink</value>
         <display-name>Flink Group</display-name>
-        <description>Flink 组名</description>
+        <description>Flink group</description>
     </property>
 
     <property>
         <name>flink_user</name>
         <value>flink</value>
         <display-name>Flink User</display-name>
-        <description>Flink 用户名</description>
+        <description>Flink user</description>
     </property>
 
 <!--  Common  -->

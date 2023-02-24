@@ -1,7 +1,17 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python
 """
-Flink Params configurations
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 """
 
 # from resource_management.libraries.functions.version import format_hdp_stack_version, compare_versions
@@ -12,7 +22,11 @@ import repoin
 
 config = Script.get_config()
 
+# env settings
+
 FLINK_TAR_NAME = 'flink.tar.gz'
+STACK_VERSION = '3.0.1.0-187'
+FLINK_DIR_NAME = 'flink-1.13.2'
 
 flink_conf = config['configurations']['flink-conf']
 
@@ -21,12 +35,9 @@ flink_group = flink_conf['flink_group']
 
 flink_download_url = os.path.join(repoin.baseurl, 'flink', FLINK_TAR_NAME)
 
-
-version = '3.0.1.0-187'
 stack_root = Script.get_stack_root()
 
-flink_base_dir = "{0}/{1}/flink".format(stack_root, version)
-flink_dir_name = 'flink-1.13.2'
+stack_base_dir = "{0}/{1}/flink".format(stack_root, STACK_VERSION)
 
 # Common
 
@@ -82,13 +93,7 @@ historyserver_archive_fs_refresh_interval = flink_conf['historyserver_archive_fs
 custom_properties = flink_conf['custom_properties']
 
 # log4j.properties
-if (('flink-log4j' in config['configurations']) and ('content' in config['configurations']['flink-log4j'])):
-    log4j_props = config['configurations']['flink-log4j']['content']
-else:
-    log4j_props = None
+log4j_props = config['configurations']['flink-log4j']['content']
 
 # log4j-cli.properties
-if (('flink-log4j-cli' in config['configurations']) and ('content' in config['configurations']['flink-log4j-cli'])):
-    log4j_cli_props = config['configurations']['flink-log4j-cli']['content']
-else:
-    log4j_cli_props = None
+log4j_cli_props = config['configurations']['flink-log4j-cli']['content']
