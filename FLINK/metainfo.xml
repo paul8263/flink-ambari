@@ -39,6 +39,18 @@
                             <primary>true</primary>
                         </log>
                     </logs>
+                    <customCommands>
+                        <customCommand>
+                            <name>START_YARN_SESSION</name>
+                            <script>scripts/flink_master.py</script>
+                            <scriptType>PYTHON</scriptType>
+                        </customCommand>
+                        <customCommand>
+                            <name>STOP_YARN_SESSION</name>
+                            <script>scripts/flink_master.py</script>
+                            <scriptType>PYTHON</scriptType>
+                        </customCommand>
+                    </customCommands>
                     <configFiles>
                         <configFile>
                             <type>xml</type>
@@ -54,6 +66,16 @@
                             <type>env</type>
                             <fileName>log4j-cli.properties</fileName>
                             <dictionaryName>flink-log4j-cli</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>log4j-console.properties</fileName>
+                            <dictionaryName>flink-log4j-console</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>log4j-session.properties</fileName>
+                            <dictionaryName>flink-log4j-session</dictionaryName>
                         </configFile>
                     </configFiles>
                 </component>
@@ -79,6 +101,8 @@
                 <config-type>flink-conf</config-type>
                 <config-type>flink-log4j</config-type>
                 <config-type>flink-log4j-cli</config-type>
+                <config-type>flink-log4j-console</config-type>
+                <config-type>flink-log4j-session</config-type>
             </configuration-dependencies>
 
             <restartRequiredAfterChange>true</restartRequiredAfterChange>

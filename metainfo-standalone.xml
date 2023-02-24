@@ -55,6 +55,16 @@
                             <fileName>log4j-cli.properties</fileName>
                             <dictionaryName>flink-log4j-cli</dictionaryName>
                         </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>log4j-console.properties</fileName>
+                            <dictionaryName>flink-log4j-console</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>log4j-session.properties</fileName>
+                            <dictionaryName>flink-log4j-session</dictionaryName>
+                        </configFile>
                     </configFiles>
                 </component>
                 <component>
@@ -74,6 +84,33 @@
                             <primary>true</primary>
                         </log>
                     </logs>
+                    <configFiles>
+                        <configFile>
+                            <type>xml</type>
+                            <fileName>flink-conf.xml</fileName>
+                            <dictionaryName>flink-conf</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>log4j.properties</fileName>
+                            <dictionaryName>flink-log4j</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>log4j-cli.properties</fileName>
+                            <dictionaryName>flink-log4j-cli</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>log4j-console.properties</fileName>
+                            <dictionaryName>flink-log4j-console</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>log4j-session.properties</fileName>
+                            <dictionaryName>flink-log4j-session</dictionaryName>
+                        </configFile>
+                    </configFiles>
                 </component>
             </components>
 
@@ -93,14 +130,13 @@
                 <scriptType>PYTHON</scriptType>
                 <timeout>300</timeout>
             </commandScript>
-            <requiredServices>
-                <service>YARN</service>
-            </requiredServices>
 
             <configuration-dependencies>
                 <config-type>flink-conf</config-type>
                 <config-type>flink-log4j</config-type>
                 <config-type>flink-log4j-cli</config-type>
+                <config-type>flink-log4j-console</config-type>
+                <config-type>flink-log4j-session</config-type>
             </configuration-dependencies>
 
             <restartRequiredAfterChange>true</restartRequiredAfterChange>
