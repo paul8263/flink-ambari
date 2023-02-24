@@ -13,8 +13,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import commands, sys
-import platform
+import commands
+
+
+# Tools for retrieving HDP Repository URL
+
+def get_linux_distribution():
+    import platform
+    return platform.dist()
+
+
+def is_centos_or_redhat():
+    distribution = get_linux_distribution()[0]
+    return "centos" == distribution or "redhat" == distribution
 
 
 def get_base_url_from_config():
@@ -45,24 +56,22 @@ def get_colon_separated_value(s):
 
 
 def get_base_url_from_yum():
+    if not is_centos_or_redhat():
+        print("Linux distribution is {}, not CentOS or Redhat")
+        return None
+
     package_name = "zookeeper"
     repo_line = commands.getoutput("yum --disablerepo '*' --enablerepo  'HD*' info {} 2>/dev/null | grep 'Repo'".format(package_name))
-    if 'ppc' in platform.processor():
-        repo_line = commands.getoutput("yum --disablerepo '*' --enablerepo  'HD*' info {} 2>/dev/null | grep 'repo'".format(package_name))
     repo_name = get_colon_separated_value(repo_line)
     if repo_name == "":
         print("ERROR: Cannot find repo for {}".format(package_name))
-        sys.exit(-1)
+        return None
 
     print("Repo name: {}".format(repo_name))
-
     baseurl_line = commands.getoutput("yum repolist {} -v | grep baseurl".format(repo_name))
     baseurl = get_colon_separated_value(baseurl_line)
     print("Base URL: {}".format(baseurl))
     return baseurl
 
 
-baseurl = get_base_url_from_config()
-
-if baseurl is None:
-    baseurl = get_base_url_from_yum()
+baseurl = get_base_url_from_config() or get_base_url_from_yum()
