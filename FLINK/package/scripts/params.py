@@ -26,6 +26,7 @@ config = Script.get_config()
 
 FLINK_TAR_NAME = 'flink.tar.gz'
 STACK_VERSION = '3.0.1.0-187'
+# Flink dir name inside flink tarball
 FLINK_DIR_NAME = 'flink-1.13.2'
 
 flink_conf = config['configurations']['flink-conf']
@@ -33,11 +34,10 @@ flink_conf = config['configurations']['flink-conf']
 flink_user = flink_conf['flink_user']
 flink_group = flink_conf['flink_group']
 
-flink_download_url = os.path.join(repoin.baseurl, 'flink', FLINK_TAR_NAME)
-
+flink_download_url = "" if repoin.get_base_url() is None else os.path.join(repoin.get_base_url(), 'flink', FLINK_TAR_NAME)
 stack_root = Script.get_stack_root()
-
-stack_base_dir = "{0}/{1}/flink".format(stack_root, STACK_VERSION)
+flink_installation_dir = os.path.join(stack_root, STACK_VERSION, 'flink')
+FLINK_HOME = os.path.join(flink_installation_dir, FLINK_DIR_NAME)
 
 # Common
 
@@ -106,3 +106,15 @@ log4j_console_props = config['configurations']['flink-log4j-console']['content']
 
 # log4j-session.properties
 log4j_session_props = config['configurations']['flink-log4j-session']['content']
+
+# masters
+masters = config['configurations']['masters']['content']
+
+# workers
+workers = config['configurations']['workers']['content']
+
+# Ambari controlled yarn session
+
+flink_yarn_session_name = config['configurations']['flink-yarn-session']['flink_yarn_session_name']
+slot_count = config['configurations']['flink-yarn-session']['slot_count']
+yarn_user = config['configurations']['flink-yarn-session']['yarn_user']
