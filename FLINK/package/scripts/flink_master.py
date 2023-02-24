@@ -16,7 +16,9 @@ limitations under the License.
 
 from resource_management import *
 from resource_management.core.exceptions import ClientComponentHasNoStatus
+from resource_management.core.exceptions import ComponentIsNotRunning
 from flink_utils import *
+from service_check import *
 
 
 class FlinkMaster(Script):
@@ -41,6 +43,12 @@ class FlinkMaster(Script):
 
     def stop_yarn_session(self, env):
         stop_flink_yarn_session()
+
+    def status(self, env):
+        if not params.standalone_enabled:
+            raise ClientComponentHasNoStatus()
+        elif not is_job_manager_running():
+            raise ComponentIsNotRunning()
 
 
 if __name__ == '__main__':

@@ -118,3 +118,6 @@ workers = config['configurations']['workers']['content']
 flink_yarn_session_name = config['configurations']['flink-yarn-session']['flink_yarn_session_name']
 slot_count = config['configurations']['flink-yarn-session']['slot_count']
 yarn_user = config['configurations']['flink-yarn-session']['yarn_user']
+
+# Standalone mode
+standalone_enabled = config['configurations']['flink-standalone']['standalone_enabled']

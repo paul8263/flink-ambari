@@ -13,16 +13,36 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import os
 
 from resource_management import *
 from resource_management.core.exceptions import ClientComponentHasNoStatus
+from resource_management.core.exceptions import ComponentIsNotRunning
 from resource_management.core.logger import Logger
-from yarn_utils import *
+import commands
+import params
+
+
+def is_job_manager_running():
+    cmd = "ps -ef | grep jobmanager | grep -v grep"
+    output = commands.getoutput(cmd)
+    return output.strip() != ''
+
+
+def is_task_manager_running():
+    cmd = "ps -ef | grep taskmanager | grep -v grep"
+    output = commands.getoutput(cmd)
+    return output.strip() != ''
 
 
 class ServiceCheck(Script):
     def service_check(self, env):
-        raise ClientComponentHasNoStatus()
+        if not params.standalone_enabled:
+            raise ClientComponentHasNoStatus()
+        else:
+            output = commands.getoutput(os.path.join(params.FLINK_HOME, 'bin/flink') + ' run {0}'.format(os.path.join(params.FLINK_HOME, 'examples/streaming/WordCount.jar')))
+            if 'The program finished with the following exception' in output:
+                raise ComponentIsNotRunning()
 
 
 if __name__ == "__main__":

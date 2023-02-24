@@ -16,8 +16,10 @@ limitations under the License.
 
 from resource_management import *
 from resource_management.core.exceptions import ClientComponentHasNoStatus
+from resource_management.core.exceptions import ComponentIsNotRunning
 from resource_management.core.logger import Logger
 from flink_utils import *
+from service_check import *
 
 
 class FlinkSlave(Script):
@@ -36,6 +38,12 @@ class FlinkSlave(Script):
 
     def configure(self, env):
         configure_flink(env)
+
+    def status(self, env):
+        if not params.standalone_enabled:
+            raise ClientComponentHasNoStatus()
+        elif not is_task_manager_running():
+            raise ComponentIsNotRunning()
 
 
 if __name__ == '__main__':
