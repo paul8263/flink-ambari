@@ -132,21 +132,5 @@ class FlinkMaster(Script):
                  group=params.flink_group
             )
 
-        if (params.log4j_yarn_session_props != None):
-            Logger.info('log4j_yarn_session_props is not empty!')
-            Logger.info('Creating log4j-yarn-session.properties')
-            File(os.path.join(params.flink_base_dir, FLINK_DIR_NAME, "conf/log4j-yarn-session.properties"),
-                 owner=params.flink_user,
-                 group=params.flink_group,
-                 content=params.log4j_yarn_session_props
-            )
-        elif (os.path.exists(os.path.join(params.flink_base_dir, FLINK_DIR_NAME, "conf/log4j-yarn-session.properties"))):
-            Logger.info('log4j_yarn_session_props is empty!')
-            Logger.info('Creating log4j-yarn-session.properties')
-            File(os.path.join(params.flink_base_dir, FLINK_DIR_NAME, "conf/log4j-yarn-session.properties"),
-                 owner=params.flink_user,
-                 group=params.flink_group
-            )
-
 if __name__ == '__main__':
     FlinkMaster().execute()

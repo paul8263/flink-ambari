@@ -92,9 +92,3 @@ if (('flink-log4j-cli' in config['configurations']) and ('content' in config['co
     log4j_cli_props = config['configurations']['flink-log4j-cli']['content']
 else:
     log4j_cli_props = None
-
-# log4j-yarn-session.properties
-if (('flink-log4j-yarn-session' in config['configurations']) and ('content' in config['configurations']['flink-log4j-yarn-session'])):
-    log4j_yarn_session_props = config['configurations']['flink-log4j-yarn-session']['content']
-else:
-    log4j_yarn_session_props = None

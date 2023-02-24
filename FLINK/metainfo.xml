@@ -41,11 +41,6 @@
                             <fileName>log4j-cli.properties</fileName>
                             <dictionaryName>flink-log4j-cli</dictionaryName>
                         </configFile>
-                        <configFile>
-                            <type>env</type>
-                            <fileName>log4j-yarn-session.properties</fileName>
-                            <dictionaryName>flink-log4j-yarn-session</dictionaryName>
-                        </configFile>
                     </configFiles>
                 </component>
                 <!--<component>
@@ -94,7 +89,6 @@
                 <config-type>flink-conf</config-type>
                 <config-type>flink-log4j</config-type>
                 <config-type>flink-log4j-cli</config-type>
-                <config-type>flink-log4j-yarn-session</config-type>
             </configuration-dependencies>
 
             <restartRequiredAfterChange>true</restartRequiredAfterChange>
