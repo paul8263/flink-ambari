@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<metainfo>
+    <schemaVersion>2.0</schemaVersion>
+    <services>
+        <service>
+            <name>FLINK</name>
+            <displayName>Flink</displayName>
+            <comment>一个面向分布式数据流处理和批量数据处理的开源计算平台。</comment>
+            <version>1.13.2</version>
+            <components>
+                <component>
+                    <name>FLINK_CLIENT</name>
+                    <displayName>Flink Client</displayName>
+                    <category>CLIENT</category>
+                    <cardinality>1+</cardinality>
+                    <versionAdvertised>true</versionAdvertised>
+                    <commandScript>
+                        <script>scripts/flink_client.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1200</timeout>
+                    </commandScript>
+                    <logs>
+                        <log>
+                            <logId>flink_master</logId>
+                            <primary>true</primary>
+                        </log>
+                    </logs>
+                    <configFiles>
+                        <configFile>
+                            <type>xml</type>
+                            <fileName>flink-conf.xml</fileName>
+                            <dictionaryName>flink-conf</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>log4j.properties</fileName>
+                            <dictionaryName>flink-log4j</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>log4j-cli.properties</fileName>
+                            <dictionaryName>flink-log4j-cli</dictionaryName>
+                        </configFile>
+                        <configFile>
+                            <type>env</type>
+                            <fileName>log4j-yarn-session.properties</fileName>
+                            <dictionaryName>flink-log4j-yarn-session</dictionaryName>
+                        </configFile>
+                    </configFiles>
+                </component>
+                <!--<component>
+                    <name>FLINK_SLAVE</name>
+                    <displayName>Flink Slave</displayName>
+                    <category>SLAVE</category>
+                    <cardinality>0+</cardinality>
+                    <versionAdvertised>true</versionAdvertised>
+                    <commandScript>
+                        <script>scripts/flink_slave.py</script>
+                        <scriptType>PYTHON</scriptType>
+                        <timeout>1200</timeout>
+                    </commandScript>
+                    <logs>
+                        <log>
+                            <logId>flink_slave</logId>
+                            <primary>true</primary>
+                        </log>
+                    </logs>
+                </component>-->
+            </components>
+
+            <supportOSandArch>CentOS7-x86_64,CentOS7-aarch64,Kylin10-aarch64,Kylinx10-x86_64,KUX5-x86_64</supportOSandArch>
+            <osSpecifics>
+                <osSpecific>
+                    <osFamily>any</osFamily>
+                    <packages>
+                        <package>
+                            <name>flink-1.13.2</name>  <!-- Not using. Please make sure the os already contains all the dependencies. -->
+                        </package>
+                    </packages>
+                </osSpecific>
+            </osSpecifics>
+            <!--
+            <commandScript>
+                <script>scripts/service_check.py</script>
+                <scriptType>PYTHON</scriptType>
+                <timeout>300</timeout>
+            </commandScript>
+            -->
+            <requiredServices>
+                <service>YARN</service>
+            </requiredServices>
+
+            <configuration-dependencies>
+                <config-type>flink-conf</config-type>
+                <config-type>flink-log4j</config-type>
+                <config-type>flink-log4j-cli</config-type>
+                <config-type>flink-log4j-yarn-session</config-type>
+            </configuration-dependencies>
+
+            <restartRequiredAfterChange>true</restartRequiredAfterChange>
+
+            <!--<quickLinksConfigurations>
+                <quickLinksConfiguration>
+                    <fileName>quicklinks.json</fileName>
+                    <default>true</default>
+                </quickLinksConfiguration>
+            </quickLinksConfigurations>-->
+
+        </service>
+    </services>
+</metainfo>
