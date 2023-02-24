@@ -39,15 +39,23 @@ jobmanager.rpc.address: {{jobmanager_rpc_address}}
 jobmanager.rpc.port: {{jobmanager_rpc_port}}
 
 
-# The heap size for the JobManager JVM
+# The total process memory size for the JobManager.
+#
+# Note this accounts for all memory usage within the JobManager process, including JVM metaspace and other overhead.
 
-jobmanager.heap.size: {{jobmanager_heap_size}}
 
+jobmanager.memory.process.size: {{jobmanager_memory_process_size}}
 
-# The heap size for the TaskManager JVM
+# The total process memory size for the TaskManager.
+#
+# Note this accounts for all memory usage within the TaskManager process, including JVM metaspace and other overhead.
 
-taskmanager.heap.size: {{taskmanager_heap_size}}
+taskmanager.memory.process.size: {{taskmanager_memory_process_size}}
 
+# To exclude JVM metaspace and overhead, please, use total Flink memory size instead of 'taskmanager.memory.process.size'.
+# It is not recommended to set both 'taskmanager.memory.process.size' and Flink memory.
+#
+# taskmanager.memory.flink.size: 1280m
 
 # The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.
 
@@ -109,6 +117,10 @@ high-availability.zookeeper.client.acl: {{high_availability_zookeeper_client_acl
 # Fault tolerance and checkpointing
 #==============================================================================
 
+{% if execution_checkpointing_interval != 'none' %}
+execution.checkpointing.interval: {{execution_checkpointing_interval}}
+{% endif %}
+
 # The backend that will be used to store operator state checkpoints if
 # checkpointing is enabled.
 #
@@ -139,6 +151,14 @@ state.savepoints.dir: {{state_savepoints_dir}}
 
 {% if state_backend_incremental != 'none' %}
 state.backend.incremental: {{state_backend_incremental}}
+{% endif %}
+
+# The failover strategy, i.e., how the job computation recovers from task failures.
+# Only restart tasks that may have been affected by the task failure, which typically includes
+# downstream tasks and potentially upstream tasks if their produced data is no longer available for consumption.
+
+{% if jobmanager_execution_failover_strategy != 'none' %}
+jobmanager.execution.failover-strategy: {{jobmanager_execution_failover_strategy}}
 {% endif %}
 
 #==============================================================================
@@ -200,19 +220,6 @@ web.submit.enable: {{web_submit_enable}}
 io.tmp.dirs: {{io_tmp_dirs}}
 {% endif %}
 
-# Specify whether TaskManager's managed memory should be allocated when starting
-# up (true) or when memory is requested.
-#
-# We recommend to set this value to 'true' only in setups for pure batch
-# processing (DataSet API). Streaming setups currently do not use the TaskManager's
-# managed memory: The 'rocksdb' state backend uses RocksDB's own memory management,
-# while the 'memory' and 'filesystem' backends explicitly keep data as objects
-# to save on serialization cost.
-#
-{% if taskmanager_memory_preallocate != 'none' %}
-taskmanager.memory.preallocate: {{taskmanager_memory_preallocate}}
-{% endif %}
-
 # The classloading resolve order. Possible values are 'child-first' (Flink's default)
 # and 'parent-first' (Java's default).
 #
@@ -266,6 +273,7 @@ security.kerberos.login.principal: {{security_kerberos_login_principal}}
 {% if security_kerberos_login_contexts != 'none' %}
 security.kerberos.login.contexts: {{security_kerberos_login_contexts}}
 {% endif %}
+
 #==============================================================================
 # ZK Security Configuration
 #==============================================================================
@@ -273,10 +281,16 @@ security.kerberos.login.contexts: {{security_kerberos_login_contexts}}
 # Below configurations are applicable if ZK ensemble is configured for security
 
 # Override below configuration to provide custom ZK service name if configured
-# zookeeper.sasl.service-name: zookeeper
+
+{% if zookeeper_sasl_service_name != 'none' %}
+zookeeper.sasl.service-name: {{zookeeper_sasl_service_name}}
+{% endif %}
 
 # The configuration below must match one of the values set in "security.kerberos.login.contexts"
-# zookeeper.sasl.login-context-name: Client
+
+{% if zookeeper_sasl_login_context_name != 'none' %}
+zookeeper.sasl.login-context-name: {{zookeeper_sasl_login_context_name}}
+{% endif %}
 
 #==============================================================================
 # HistoryServer

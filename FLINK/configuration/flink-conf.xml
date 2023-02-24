@@ -53,10 +53,10 @@
     </property>
 
     <property>
-        <name>jobmanager_heap_size</name>
-        <value>1024</value>
-        <display-name>jobmanager.heap.size</display-name>
-        <description>JVM heap size for the JobManager.</description>
+        <name>jobmanager_memory_process_size</name>
+        <value>1600</value>
+        <display-name>jobmanager.memory.process.size</display-name>
+        <description>The total process memory size for the JobManager.</description>
         <value-attributes>
             <type>int</type>
             <minimum>0</minimum>
@@ -69,10 +69,10 @@
     </property>
 
     <property>
-        <name>taskmanager_heap_size</name>
-        <value>1024</value>
-        <display-name>taskmanager.heap.size</display-name>
-        <description>JVM heap size for the TaskManagers, which are the parallel workers of the system. On YARN setups, this value is automatically configured to the size of the TaskManager's YARN container, minus a certain tolerance value.</description>
+        <name>taskmanager_memory_process_size</name>
+        <value>1728</value>
+        <display-name>taskmanager.memory.process.size</display-name>
+        <description>The total process memory size for the TaskManager.</description>
         <value-attributes>
             <type>int</type>
             <minimum>0</minimum>
@@ -88,7 +88,7 @@
         <name>taskmanager_numberOfTaskSlots</name>
         <value>1</value>
         <display-name>taskmanager.numberOfTaskSlots</display-name>
-        <description>The number of parallel operator or user function instances that a single TaskManager can run. If this value is larger than 1, a single TaskManager takes multiple instances of a function or operator. That way, the TaskManager can utilize multiple CPU cores, but at the same time, the available memory is divided between the different operator or function instances. This value is typically proportional to the number of physical CPU cores that the TaskManager's machine has (e.g., equal to the number of cores, or half the number of cores).</description>
+        <description>The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.</description>
         <value-attributes>
             <type>int</type>
             <minimum>0</minimum>
@@ -103,7 +103,7 @@
         <name>parallelism_default</name>
         <value>1</value>
         <display-name>parallelism.default</display-name>
-        <description>Default parallelism for jobs.</description>
+        <description>The parallelism used for programs that did not specify and other parallelism.</description>
         <value-attributes>
             <type>int</type>
             <minimum>0</minimum>
@@ -152,12 +152,18 @@
 
 <!--  Fault tolerance and checkpointing  -->
 
+    <property>
+        <name>execution_checkpointing_interval</name>
+        <value>none</value>
+        <display-name>execution.checkpointing.interval</display-name>
+        <description>Gets the interval in which checkpoints are periodically scheduled.</description>
+    </property>
 
     <property>
         <name>state_backend</name>
         <value>none</value>
         <display-name>state.backend</display-name>
-        <description>The state backend to be used to store and checkpoint state.</description>
+        <description>The state backend to be used to store and checkpoint state. Supported backends are 'jobmanager', 'filesystem', 'rocksdb', or the &lt;class-name-of-factory&gt;.</description>
     </property>
 
     <property>
@@ -180,6 +186,13 @@
         <description>Option whether the state backend should create incremental checkpoints, if possible. For an incremental checkpoint, only a diff from the previous checkpoint is stored, rather than the complete checkpoint state. Some state backends may not support incremental checkpoints and ignore this option.</description>
     </property>
 
+    <property>
+        <name>jobmanager_execution_failover_strategy</name>
+        <value>region</value>
+        <display-name>jobmanager.execution.failover-strategy</display-name>
+        <description>The failover strategy, i.e., how the job computation recovers from task failures.</description>
+    </property>
+
 <!--  Rest & web frontend  -->
 
     <property>
@@ -198,7 +211,7 @@
 
     <property>
         <name>rest_bind_port</name>
-        <value>50100-50200</value>
+        <value>none</value>
         <display-name>rest.bind-port</display-name>
         <description>The port that the server binds itself. Accepts a list of ports (“50100,50101”), ranges (“50100-50200”) or a combination of both. It is recommended to set a range of ports to avoid collisions when multiple Rest servers are running on the same machine.</description>
     </property>
@@ -225,24 +238,21 @@
         <display-name>io.tmp.dirs</display-name>
         <description>Directories for temporary files, separated by",", "|", or the system's java.io.File.pathSeparator.</description>
     </property>
-    <property>
-        <name>taskmanager_memory_preallocate</name>
-        <value>false</value>
-        <display-name>taskmanager.memory.preallocate</display-name>
-        <description>Whether TaskManager managed memory should be pre-allocated when the TaskManager is starting. When taskmanager.memory.off-heap is set to true, then it is advised that this configuration is also set to true. If this configuration is set to false cleaning up of the allocated off-heap memory happens only when the configured JVM parameter MaxDirectMemorySize is reached by triggering a full GC. For streaming setups is is highly recommended to set this value to false as the core state backends currently do not use the managed memory.</description>
-    </property>
+
     <property>
         <name>classloader_resolve_order</name>
         <value>child-first</value>
         <display-name>classloader.resolve-order</display-name>
         <description>Defines the class resolution strategy when loading classes from user code, meaning whether to first check the user code jar ("child-first") or the application classpath ("parent-first"). The default settings indicate to load classes first from the user code jar, which means that user code jars can include and load different dependencies than Flink uses (transitively).</description>
     </property>
+
     <property>
         <name>taskmanager_network_memory_fraction</name>
         <value>0.1</value>
         <display-name>taskmanager.network.memory.fraction</display-name>
         <description>Fraction of JVM memory to use for network buffers. This determines how many streaming data exchange channels a TaskManager can have at the same time and how well buffered the channels are. If a job is rejected or you get a warning that the system has not enough buffers available, increase this value or the min/max values below. Also note, that "taskmanager.network.memory.min"` and "taskmanager.network.memory.max" may override this fraction.</description>
     </property>
+
     <property>
         <name>taskmanager_network_memory_min</name>
         <value>64mb</value>
@@ -285,6 +295,20 @@
         <value>none</value>
         <display-name>security.kerberos.login.principal</display-name>
         <description>Kerberos principal name associated with the keytab.</description>
+    </property>
+
+    <property>
+        <name>zookeeper_sasl_service_name</name>
+        <value>none</value>
+        <display-name>zookeeper.sasl.service-name</display-name>
+        <description>Override below configuration to provide custom ZK service name if configured.</description>
+    </property>
+
+    <property>
+        <name>zookeeper_sasl_login_context_name</name>
+        <value>none</value>
+        <display-name>zookeeper.sasl.login-context-name</display-name>
+        <description>The configuration below must match one of the values set in "security.kerberos.login.contexts".</description>
     </property>
 
 <!--  History server  -->

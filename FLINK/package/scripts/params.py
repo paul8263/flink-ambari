@@ -15,8 +15,8 @@ limitations under the License.
 """
 
 # from resource_management.libraries.functions.version import format_hdp_stack_version, compare_versions
-from resource_management import *
 # from resource_management.core.logger import Logger
+from resource_management import *
 import os
 import repoin
 
@@ -43,8 +43,8 @@ stack_base_dir = "{0}/{1}/flink".format(stack_root, STACK_VERSION)
 
 jobmanager_rpc_address = flink_conf['jobmanager_rpc_address']
 jobmanager_rpc_port = flink_conf['jobmanager_rpc_port']
-jobmanager_heap_size = flink_conf['jobmanager_heap_size'] + 'm'
-taskmanager_heap_size = flink_conf['taskmanager_heap_size'] + 'm'
+jobmanager_memory_process_size = flink_conf['jobmanager_memory_process_size'] + 'm'
+taskmanager_memory_process_size = flink_conf['taskmanager_memory_process_size'] + 'm'
 taskmanager_numberOfTaskSlots = flink_conf['taskmanager_numberOfTaskSlots']
 parallelism_default = flink_conf['parallelism_default']
 fs_default_scheme = flink_conf['fs_default_scheme']
@@ -56,10 +56,12 @@ high_availability_zookeeper_quorum = flink_conf['high_availability_zookeeper_quo
 high_availability_zookeeper_client_acl = flink_conf['high_availability_zookeeper_client_acl']
 
 # Fault tolerance and checkpointing
+execution_checkpointing_interval = flink_conf['execution_checkpointing_interval']
 state_backend = flink_conf['state_backend']
 state_checkpoints_dir = flink_conf['state_checkpoints_dir']
 state_savepoints_dir = flink_conf['state_savepoints_dir']
 state_backend_incremental = flink_conf['state_backend_incremental']
+jobmanager_execution_failover_strategy = flink_conf['jobmanager_execution_failover_strategy']
 
 # Rest & web frontend
 
@@ -69,7 +71,6 @@ rest_bind_port = flink_conf['rest_bind_port']
 rest_bind_address = flink_conf['rest_bind_address']
 web_submit_enable = flink_conf['web_submit_enable']
 io_tmp_dirs = flink_conf['io_tmp_dirs']
-taskmanager_memory_preallocate = flink_conf['taskmanager_memory_preallocate']
 classloader_resolve_order = flink_conf['classloader_resolve_order']
 taskmanager_network_memory_fraction = flink_conf['taskmanager_network_memory_fraction']
 taskmanager_network_memory_min = flink_conf['taskmanager_network_memory_min']
@@ -80,6 +81,8 @@ security_kerberos_login_contexts = flink_conf['security_kerberos_login_contexts'
 security_kerberos_login_use_ticket_cache = flink_conf['security_kerberos_login_use_ticket_cache']
 security_kerberos_login_keytab = flink_conf['security_kerberos_login_keytab']
 security_kerberos_login_principal = flink_conf['security_kerberos_login_principal']
+zookeeper_sasl_service_name = flink_conf['zookeeper_sasl_service_name']
+zookeeper_sasl_login_context_name = flink_conf['zookeeper_sasl_login_context_name']
 
 # History server
 
@@ -97,3 +100,9 @@ log4j_props = config['configurations']['flink-log4j']['content']
 
 # log4j-cli.properties
 log4j_cli_props = config['configurations']['flink-log4j-cli']['content']
+
+# log4j-console.properties
+log4j_console_props = config['configurations']['flink-log4j-console']['content']
+
+# log4j-session.properties
+log4j_session_props = config['configurations']['flink-log4j-session']['content']
