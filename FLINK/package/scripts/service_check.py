@@ -20,7 +20,7 @@ from resource_management.core.exceptions import ClientComponentHasNoStatus
 from resource_management.core.exceptions import ComponentIsNotRunning
 from resource_management.core.logger import Logger
 import commands
-import params
+
 
 
 def is_job_manager_running():
@@ -37,6 +37,7 @@ def is_task_manager_running():
 
 class ServiceCheck(Script):
     def service_check(self, env):
+        import params
         if not params.standalone_enabled:
             raise ClientComponentHasNoStatus()
         else:

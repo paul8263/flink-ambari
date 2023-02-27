@@ -19,7 +19,7 @@ from resource_management.core.exceptions import ClientComponentHasNoStatus
 from resource_management.core.exceptions import ComponentIsNotRunning
 from resource_management.core.logger import Logger
 from flink_utils import *
-from service_check import *
+from service_check import is_task_manager_running
 
 
 class FlinkSlave(Script):
@@ -40,6 +40,7 @@ class FlinkSlave(Script):
         configure_flink(env)
 
     def status(self, env):
+        import params
         if not params.standalone_enabled:
             raise ClientComponentHasNoStatus()
         elif not is_task_manager_running():

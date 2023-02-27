@@ -18,7 +18,7 @@ from resource_management import *
 from resource_management.core.exceptions import ClientComponentHasNoStatus
 from resource_management.core.exceptions import ComponentIsNotRunning
 from flink_utils import *
-from service_check import *
+from service_check import is_job_manager_running
 
 
 class FlinkMaster(Script):
@@ -45,6 +45,7 @@ class FlinkMaster(Script):
         stop_flink_yarn_session()
 
     def status(self, env):
+        import params
         if not params.standalone_enabled:
             raise ClientComponentHasNoStatus()
         elif not is_job_manager_running():

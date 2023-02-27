@@ -17,17 +17,14 @@ limitations under the License.
 from resource_management import *
 from resource_management.core.resources.system import File
 from resource_management.core.logger import Logger
-import params
 from yarn_utils import *
 import pwd,grp
 import os
 
 
-flink_conf_dir = os.path.join(params.FLINK_HOME, 'conf')
-flink_bin_dir = os.path.join(params.FLINK_HOME, 'bin')
-
 def install_flink(env):
     Logger.info('Creating Flink group')
+    import params
     env.set_params(params)
 
     try:
@@ -85,7 +82,9 @@ def install_flink(env):
 
 def configure_flink(env):
     Logger.info('Configuring Flink')
+    import params
     env.set_params(params)
+    flink_conf_dir = os.path.join(params.FLINK_HOME, 'conf')
 
     File(os.path.join(flink_conf_dir, 'flink-conf.yaml'),
          content=Template("flink-conf.yaml.j2"),
@@ -132,22 +131,30 @@ def configure_flink(env):
 
 def start_flink_standalone_cluster():
     Logger.info('Starting Flink standalone cluster')
+    import params
+    flink_bin_dir = os.path.join(params.FLINK_HOME, 'bin')
     Execute(os.path.join(flink_bin_dir, 'start-cluster.sh'))
 
 
 def stop_flink_standalone_cluster():
     Logger.info('Stopping Flink standalone cluster')
+    import params
+    flink_bin_dir = os.path.join(params.FLINK_HOME, 'bin')
     Execute(os.path.join(flink_bin_dir, 'stop-cluster.sh'))
 
 
 def start_flink_yarn_session():
     Logger.info('Starting Flink yarn session')
+    import params
+    flink_bin_dir = os.path.join(params.FLINK_HOME, 'bin')
     cmd = get_start_yarn_session_cmd(params.flink_yarn_session_name, params.jobmanager_memory_process_size,
                                      params.taskmanager_memory_process_size, params.slot_count)
     Execute(cmd, user=params.yarn_user)
 
 
 def stop_flink_yarn_session():
+    Logger.info('Stopping Flink yarn session')
+    import params
     result = kill_yarn_application(params.flink_yarn_session_name)
     if result:
         Logger.info('Flink yarn session: {0} has been killed'.format(params.flink_yarn_session_name))
@@ -157,9 +164,13 @@ def stop_flink_yarn_session():
 
 
 def get_start_yarn_session_cmd(yarn_session_name, jm_heap_size, tm_heap_size, slot_count):
+    import params
+    flink_bin_dir = os.path.join(params.FLINK_HOME, 'bin')
     return '{0} -d -nm {1} -jm {2} -tm {3} -s {4}'.format(os.path.join(flink_bin_dir, 'yarn-session.sh'), yarn_session_name, jm_heap_size, tm_heap_size, slot_count)
 
 
 def create_symbolic_link():
+    import params
+    flink_bin_dir = os.path.join(params.FLINK_HOME, 'bin')
     # Link('/bin/yarn-session', to=os.path.join(flink_bin_dir, 'yarn-session.sh'))
     Link('/bin/flink', to=os.path.join(flink_bin_dir, 'flink'))
