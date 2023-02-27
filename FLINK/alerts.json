@@ -3,14 +3,14 @@
     "service": [],
     "FLINK_MASTER": [
       {
-        "name": "flink_job_manager",
+        "name": "FLINK_MASTER",
         "label": "Flink Job Manager",
         "description": "This host-level alert is triggered if the 8081 port is unreachable.",
         "interval": 1,
-        "scope": "HOST",
+        "scope": "ANY",
         "source": {
           "type": "PORT",
-          "uri": "{{masters/content}}",
+          "uri": "{{flink-conf/rest_port}}",
           "default_port": 8081,
           "reporting": {
             "ok": {

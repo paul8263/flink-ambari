@@ -3,22 +3,22 @@
   "description": "default quick links configuration",
   "configuration": {
     "protocol": {
-      "type":"http",
+      "type":"HTTP_ONLY",
       "checks":[
       ]
     },
     "links": [
       {
-        "name": "flink_ui",
-        "label": "Flink UI",
+        "name": "flink_web_ui",
+        "label": "Flink Web UI",
         "requires_user_name": "false",
         "component_name": "FLINK_MASTER",
         "url":"%@://%@:%@",
         "port":{
-          "http_property": "{{masters/content}}",
+          "http_property": "rest_port",
           "http_default_port": "8081",
-          "regex": "\\w*:(\\d+)",
-          "site": "flink"
+          "regex": "^(\\d+)$",
+          "site": "flink-conf"
         }
       }
     ]
