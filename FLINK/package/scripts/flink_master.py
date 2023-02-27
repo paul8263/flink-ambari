@@ -23,29 +23,40 @@ from service_check import is_job_manager_running
 
 class FlinkMaster(Script):
     def install(self, env):
-        install_flink(env)
+        import params
+        env.set_params(params)
+        install_flink()
         self.configure(env)
 
     def stop(self, env):
+        import params
+        env.set_params(params)
         stop_flink_standalone_cluster()
 
     def start(self, env):
+        import params
+        env.set_params(params)
         start_flink_standalone_cluster()
 
-    def status(self, env):
-        raise ClientComponentHasNoStatus()
 
     def configure(self, env):
-        configure_flink(env)
+        import params
+        env.set_params(params)
+        configure_flink()
 
     def start_yarn_session(self, env):
+        import params
+        env.set_params(params)
         start_flink_yarn_session()
 
     def stop_yarn_session(self, env):
+        import params
+        env.set_params(params)
         stop_flink_yarn_session()
 
     def status(self, env):
         import params
+        env.set_params(params)
         if not params.standalone_enabled:
             raise ClientComponentHasNoStatus()
         elif not is_job_manager_running():

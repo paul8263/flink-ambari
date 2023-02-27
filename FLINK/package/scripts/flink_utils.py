@@ -22,10 +22,9 @@ import pwd,grp
 import os
 
 
-def install_flink(env):
+def install_flink():
     Logger.info('Creating Flink group')
     import params
-    env.set_params(params)
 
     try:
         grp.getgrnam(params.flink_group)
@@ -80,10 +79,9 @@ def install_flink(env):
     Logger.info('Flink installation completed')
 
 
-def configure_flink(env):
+def configure_flink():
     Logger.info('Configuring Flink')
     import params
-    env.set_params(params)
     flink_conf_dir = os.path.join(params.FLINK_HOME, 'conf')
 
     File(os.path.join(flink_conf_dir, 'flink-conf.yaml'),
@@ -146,10 +144,9 @@ def stop_flink_standalone_cluster():
 def start_flink_yarn_session():
     Logger.info('Starting Flink yarn session')
     import params
-    flink_bin_dir = os.path.join(params.FLINK_HOME, 'bin')
     cmd = get_start_yarn_session_cmd(params.flink_yarn_session_name, params.jobmanager_memory_process_size,
                                      params.taskmanager_memory_process_size, params.slot_count)
-    Execute(cmd, user=params.yarn_user)
+    Execute("export HADOOP_CLASSPATH=`hadoop classpath` && " + cmd, user=params.yarn_user)
 
 
 def stop_flink_yarn_session():
@@ -166,7 +163,7 @@ def stop_flink_yarn_session():
 def get_start_yarn_session_cmd(yarn_session_name, jm_heap_size, tm_heap_size, slot_count):
     import params
     flink_bin_dir = os.path.join(params.FLINK_HOME, 'bin')
-    return '{0} -d -nm {1} -jm {2} -tm {3} -s {4}'.format(os.path.join(flink_bin_dir, 'yarn-session.sh'), yarn_session_name, jm_heap_size, tm_heap_size, slot_count)
+    return '{0} -d -nm \'{1}\' -jm {2} -tm {3} -s {4}'.format(os.path.join(flink_bin_dir, 'yarn-session.sh'), yarn_session_name, jm_heap_size, tm_heap_size, slot_count)
 
 
 def create_symbolic_link():

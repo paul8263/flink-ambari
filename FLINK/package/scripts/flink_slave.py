@@ -24,23 +24,29 @@ from service_check import is_task_manager_running
 
 class FlinkSlave(Script):
     def install(self, env):
-        install_flink(env)
+        import params
+        env.set_params(params)
+        install_flink()
         self.configure(env)
 
     def stop(self, env):
+        import params
+        env.set_params(params)
         Logger.info('Slave does nothing on stop.')
 
     def start(self, env):
+        import params
+        env.set_params(params)
         Logger.info('Slave does nothing on start.')
 
-    def status(self, env):
-        raise ClientComponentHasNoStatus()
-
     def configure(self, env):
-        configure_flink(env)
+        import params
+        env.set_params(params)
+        configure_flink()
 
     def status(self, env):
         import params
+        env.set_params(params)
         if not params.standalone_enabled:
             raise ClientComponentHasNoStatus()
         elif not is_task_manager_running():

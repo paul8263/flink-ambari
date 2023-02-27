@@ -39,18 +39,6 @@
                             <primary>true</primary>
                         </log>
                     </logs>
-                    <customCommands>
-                        <customCommand>
-                            <name>START_YARN_SESSION</name>
-                            <script>scripts/flink_master.py</script>
-                            <scriptType>PYTHON</scriptType>
-                        </customCommand>
-                        <customCommand>
-                            <name>STOP_YARN_SESSION</name>
-                            <script>scripts/flink_master.py</script>
-                            <scriptType>PYTHON</scriptType>
-                        </customCommand>
-                    </customCommands>
                     <configFiles>
                         <configFile>
                             <type>xml</type>

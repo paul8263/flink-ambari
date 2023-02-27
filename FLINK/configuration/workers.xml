@@ -19,10 +19,7 @@
         <name>content</name>
         <display-name>workers template</display-name>
         <description>Custom workers (Standalone mode only)</description>
-        <value>
-localhost
-
-        </value>
+        <value>localhost</value>
         <value-attributes>
             <type>content</type>
             <show-property-name>false</show-property-name>

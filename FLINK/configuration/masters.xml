@@ -19,10 +19,7 @@
         <name>content</name>
         <display-name>masters template</display-name>
         <description>Custom masters (Standalone mode only)</description>
-        <value>
-localhost:8081
-
-        </value>
+        <value>localhost:8081</value>
         <value-attributes>
             <type>content</type>
             <show-property-name>false</show-property-name>
