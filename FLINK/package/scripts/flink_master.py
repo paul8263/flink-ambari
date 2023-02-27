@@ -36,8 +36,8 @@ class FlinkMaster(Script):
     def start(self, env):
         import params
         env.set_params(params)
+        self.configure(env)
         start_flink_standalone_cluster()
-
 
     def configure(self, env):
         import params

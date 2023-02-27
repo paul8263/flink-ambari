@@ -37,6 +37,7 @@ class FlinkSlave(Script):
     def start(self, env):
         import params
         env.set_params(params)
+        self.configure(env)
         Logger.info('Slave does nothing on start.')
 
     def configure(self, env):
