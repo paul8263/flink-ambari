@@ -14,18 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import commands
+import os
 
 
 # Tools for retrieving HDP Repository URL
 
-def _get_linux_distribution():
-    import platform
-    return platform.dist()
-
-
-def _is_centos_or_redhat():
-    distribution = _get_linux_distribution()[0]
-    return "centos" == distribution or "redhat" == distribution
+def _has_yum():
+    return os.path.exists("/etc/yum.conf")
 
 
 def _get_base_url_from_config():
@@ -56,8 +51,8 @@ def _get_colon_separated_value(s):
 
 
 def _get_base_url_from_yum():
-    if not _is_centos_or_redhat():
-        print("Linux distribution is {}, not CentOS or Redhat")
+    if not _has_yum():
+        print("Yum is not available")
         return None
 
     package_name = "zookeeper"
