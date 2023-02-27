@@ -60,7 +60,7 @@ def install_flink(env):
         Logger.info('Flink binary has been extracted. Delete it before installation')
         Execute("rm -rf {0}".format(params.FLINK_HOME))
 
-    Logger.info('Downloading Flink binaries')
+    Logger.info('Downloading Flink binaries from: {0}'.format(params.flink_download_url))
     Execute("cd {0}; wget {1} -O flink.tar.gz".format(params.flink_installation_dir, params.flink_download_url),
             user=params.flink_user)
 

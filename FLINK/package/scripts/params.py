@@ -34,8 +34,8 @@ flink_conf = config['configurations']['flink-conf']
 flink_user = flink_conf['flink_user']
 flink_group = flink_conf['flink_group']
 
-flink_download_from_repo = "" if repoin.get_base_url() is None else os.path.join(repoin.get_base_url(), 'flink', FLINK_TAR_NAME)
-flink_download_url = flink_conf['flink_download_url']
+flink_download_url = os.path.join(repoin.get_base_url(), 'flink', FLINK_TAR_NAME) if flink_conf['flink_download_url'] == 'DOWNLOAD_PROM_REPO' else flink_conf['flink_download_url']
+
 stack_root = Script.get_stack_root()
 flink_installation_dir = os.path.join(stack_root, STACK_VERSION, 'flink')
 FLINK_HOME = os.path.join(flink_installation_dir, FLINK_DIR_NAME)
