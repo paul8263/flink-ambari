@@ -18,8 +18,8 @@
     <property>
         <name>flink_download_url</name>
         <value>DOWNLOAD_PROM_REPO</value>
-        <display-name>Flink installation path</display-name>
-        <description>Flink installation path. Flink will be downloaded from repository URL if this config is left unchanged.</description>
+        <display-name>Flink download URL</display-name>
+        <description>Flink download URL. Flink will be downloaded from repository URL if this config is left unchanged.</description>
     </property>
 
     <property>
