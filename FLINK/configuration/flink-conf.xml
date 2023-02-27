@@ -346,6 +346,12 @@
         <value>10000</value>
         <display-name>historyserver.archive.fs.refresh-interval</display-name>
         <description>The refresh interval for the HistoryServer web-frontend in milliseconds.</description>
+        <value-attributes>
+            <type>int</type>
+            <minimum>0</minimum>
+            <increment-step>1</increment-step>
+            <overridable>false</overridable>
+        </value-attributes>
     </property>
 
     <property>
