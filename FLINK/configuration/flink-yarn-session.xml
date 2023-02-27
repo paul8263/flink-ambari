@@ -20,7 +20,7 @@
 
     <property>
         <name>flink_yarn_session_name</name>
-        <value>Flink session cluster</value>
+        <value>Flink-session-cluster</value>
         <display-name>Flink Yarn session name</display-name>
         <description>Flink Yarn session name (Only needed when using Ambari controlled Flink Yarn session)</description>
     </property>

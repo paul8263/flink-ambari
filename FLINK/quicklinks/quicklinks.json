@@ -9,18 +9,16 @@
     },
     "links": [
       {
-        "name": "elasticsearch_ui",
-        "label": "Elasticsearch UI",
+        "name": "flink_ui",
+        "label": "Flink UI",
         "requires_user_name": "false",
-        "component_name": "ELASTICSEARCH_MASTER",
+        "component_name": "FLINK_MASTER",
         "url":"%@://%@:%@",
         "port":{
-          "http_property": "http_port",
-          "http_default_port": "9200",
-          "https_property": "http_port",
-          "https_default_port": "9200",
+          "http_property": "{{masters/content}}",
+          "http_default_port": "8081",
           "regex": "\\w*:(\\d+)",
-          "site": "elastic-config"
+          "site": "flink"
         }
       }
     ]
