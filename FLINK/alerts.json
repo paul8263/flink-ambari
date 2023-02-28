@@ -5,7 +5,7 @@
       {
         "name": "FLINK_MASTER",
         "label": "Flink Job Manager",
-        "description": "This host-level alert is triggered if the 8081 port is unreachable.",
+        "description": "This host-level alert is triggered if the Job Manager port is unreachable.",
         "interval": 1,
         "scope": "ANY",
         "source": {
