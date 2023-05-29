@@ -321,6 +321,12 @@ historyserver.archive.fs.dir: {{historyserver_archive_fs_dir}}
 historyserver.archive.fs.refresh-interval: {{historyserver_archive_fs_refresh_interval}}
 {% endif %}
 
+# Others
+
+{% if classloader_check_leaked_classloader != 'none' %}
+classloader.check-leaked-classloader: {{classloader_check_leaked_classloader}}
+{% endif %}
+
 # Custom properties
 
 {{custom_properties}}

@@ -355,6 +355,13 @@
     </property>
 
     <property>
+        <name>classloader_check_leaked_classloader</name>
+        <value>true</value>
+        <display-name>classloader.check-leaked-classloader</display-name>
+        <description>Fails attempts at loading classes if the user classloader of a job is used after it has terminated. This is usually caused by the classloader being leaked by lingering threads or misbehaving libraries, which may also result in the classloader being used by other jobs. This check should only be disabled if such a leak prevents further jobs from running.</description>
+    </property>
+
+    <property>
         <name>custom_properties</name>
         <value>
 # This is the place for your custom properties.

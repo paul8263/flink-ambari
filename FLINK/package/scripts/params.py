@@ -93,6 +93,10 @@ historyserver_web_port = flink_conf['historyserver_web_port']
 historyserver_archive_fs_dir = flink_conf['historyserver_archive_fs_dir']
 historyserver_archive_fs_refresh_interval = flink_conf['historyserver_archive_fs_refresh_interval']
 
+# Others
+
+classloader_check_leaked_classloader = flink_conf['classloader_check_leaked_classloader']
+
 # Custom properties
 custom_properties = flink_conf['custom_properties']
 
