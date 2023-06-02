@@ -27,7 +27,7 @@ config = Script.get_config()
 FLINK_TAR_NAME = 'flink.tar.gz'
 STACK_VERSION = '3.0.1.0-187'
 # Flink dir name inside flink tarball
-FLINK_DIR_NAME = 'flink-1.13.2'
+FLINK_DIR_NAME = 'flink-1.15.4'
 
 flink_conf = config['configurations']['flink-conf']
 
@@ -112,17 +112,5 @@ log4j_console_props = config['configurations']['flink-log4j-console']['content']
 # log4j-session.properties
 log4j_session_props = config['configurations']['flink-log4j-session']['content']
 
-# masters
-masters = config['configurations']['masters']['content']
-
-# workers
-workers = config['configurations']['workers']['content']
-
-# Ambari controlled yarn session
-
-flink_yarn_session_name = config['configurations']['flink-yarn-session']['flink_yarn_session_name']
-slot_count = config['configurations']['flink-yarn-session']['slot_count']
-yarn_user = config['configurations']['flink-yarn-session']['yarn_user']
-
 # Standalone mode
-standalone_enabled = config['configurations']['flink-standalone']['standalone_enabled']
+standalone_enabled = False
