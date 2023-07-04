@@ -51,27 +51,27 @@ def install_flink():
               )
 
     Logger.info('Check existing files')
-    if os.path.exists(os.path.join(params.flink_installation_dir, 'flink.tar.gz')):
+    if os.path.exists(os.path.join(params.flink_installation_dir, params.FLINK_TAR_NAME)):
         Logger.info('Flink tarball exists. Delete it before downloading')
-        Execute("rm -f {0}".format(os.path.join(params.flink_installation_dir, 'flink.tar.gz')))
+        Execute("rm -f {0}".format(os.path.join(params.flink_installation_dir, params.FLINK_TAR_NAME)))
 
     if os.path.exists(params.FLINK_HOME):
         Logger.info('Flink binary has been extracted. Delete it before installation')
         Execute("rm -rf {0}".format(params.FLINK_HOME))
 
     Logger.info('Downloading Flink binaries from: {0}'.format(params.flink_download_url))
-    Execute("cd {0}; wget {1} -O flink.tar.gz".format(params.flink_installation_dir, params.flink_download_url),
+    Execute("cd {0}; wget {1} -O {2}".format(params.flink_installation_dir, params.flink_download_url, params.FLINK_TAR_NAME),
             user=params.flink_user)
 
     Logger.info('Extracting Flink binaries')
-    Execute("cd {0}; tar -zxvf flink.tar.gz".format(params.flink_installation_dir), user=params.flink_user)
-    File(os.path.join(params.flink_installation_dir, "flink.tar.gz"), action='delete')
+    Execute("cd {0}; tar -zxvf {1}".format(params.flink_installation_dir, params.FLINK_TAR_NAME), user=params.flink_user)
+    File(os.path.join(params.flink_installation_dir, params.FLINK_TAR_NAME), action='delete')
 
     Logger.info('Modify log folder access permissions')
     Execute("cd {0}; chmod 777 log".format(params.FLINK_HOME), user=params.flink_user)
 
     Logger.info('Delete Flink tarball')
-    Execute("rm -f {0}".format(os.path.join(params.flink_installation_dir, 'flink.tar.gz')))
+    Execute("rm -f {0}".format(os.path.join(params.flink_installation_dir, params.FLINK_TAR_NAME)))
 
     Logger.info('Creating symbolic links')
     create_symbolic_link()
