@@ -114,18 +114,6 @@ def configure_flink():
          content=params.log4j_session_props
          )
 
-    File(os.path.join(flink_conf_dir, "masters"),
-         owner=params.flink_user,
-         group=params.flink_group,
-         content=params.masters
-         )
-
-    File(os.path.join(flink_conf_dir, "workers"),
-         owner=params.flink_user,
-         group=params.flink_group,
-         content=params.workers
-         )
-
 
 def start_flink_standalone_cluster():
     Logger.info('Starting Flink standalone cluster')
