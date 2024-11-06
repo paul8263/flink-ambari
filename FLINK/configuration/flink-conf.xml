@@ -124,9 +124,9 @@
 <!--  High Availability  -->
 
     <property>
-        <name>high_availability</name>
+        <name>high_availability_type</name>
         <value>NONE</value>
-        <display-name>high-availability</display-name>
+        <display-name>high-availability.type</display-name>
         <description>Defines high-availability mode used for the cluster execution. To enable high-availability, set this mode to "ZOOKEEPER" or specify FQN of factory class.</description>
     </property>
     <property>
@@ -150,6 +150,13 @@
         <description>Defines the ACL (open|creator) to be configured on ZK node. The configuration value can be set to “creator” if the ZooKeeper server configuration has the “authProvider” property mapped to use SASLAuthenticationProvider and the cluster is configured to run in secure mode (Kerberos).</description>
     </property>
 
+    <property>
+        <name>zookeeper_sasl_disable</name>
+        <value>true</value>
+        <display-name>zookeeper.sasl.disable</display-name>
+        <description>Whether use SASL to connect to a secured ZooKeeper quorum or not.</description>
+    </property>
+
 <!--  Fault tolerance and checkpointing  -->
 
     <property>
@@ -160,10 +167,10 @@
     </property>
 
     <property>
-        <name>state_backend</name>
+        <name>state_backend_type</name>
         <value>none</value>
-        <display-name>state.backend</display-name>
-        <description>The state backend to be used to store and checkpoint state. Supported backends are 'jobmanager', 'filesystem', 'rocksdb', or the &lt;class-name-of-factory&gt;.</description>
+        <display-name>state.backend.type</display-name>
+        <description>The state backend to be used to store and checkpoint state. Supported backends are 'hashmap', 'rocksdb', or the &lt;class-name-of-factory&gt;.</description>
     </property>
 
     <property>
@@ -247,23 +254,23 @@
     </property>
 
     <property>
-        <name>taskmanager_network_memory_fraction</name>
+        <name>taskmanager_memory_network_fraction</name>
         <value>0.1</value>
-        <display-name>taskmanager.network.memory.fraction</display-name>
+        <display-name>taskmanager.memory.network.fraction</display-name>
         <description>Fraction of JVM memory to use for network buffers. This determines how many streaming data exchange channels a TaskManager can have at the same time and how well buffered the channels are. If a job is rejected or you get a warning that the system has not enough buffers available, increase this value or the min/max values below. Also note, that "taskmanager.network.memory.min"` and "taskmanager.network.memory.max" may override this fraction.</description>
     </property>
 
     <property>
-        <name>taskmanager_network_memory_min</name>
+        <name>taskmanager_memory_network_min</name>
         <value>64mb</value>
-        <display-name>taskmanager.network.memory.min</display-name>
+        <display-name>taskmanager.memory.network.min</display-name>
         <description>Minimum memory size for network buffers.</description>
     </property>
 
     <property>
-        <name>taskmanager_network_memory_max</name>
+        <name>taskmanager_memory_network_max</name>
         <value>1gb</value>
-        <display-name>taskmanager.network.memory.max</display-name>
+        <display-name>taskmanager.memory.network.max</display-name>
         <description>Maximum memory size for network buffers.</description>
     </property>
 
@@ -356,7 +363,7 @@
 
     <property>
         <name>classloader_check_leaked_classloader</name>
-        <value>true</value>
+        <value>false</value>
         <display-name>classloader.check-leaked-classloader</display-name>
         <description>Fails attempts at loading classes if the user classloader of a job is used after it has terminated. This is usually caused by the classloader being leaked by lingering threads or misbehaving libraries, which may also result in the classloader being used by other jobs. This check should only be disabled if such a leak prevents further jobs from running.</description>
     </property>

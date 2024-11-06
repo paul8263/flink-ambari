@@ -27,7 +27,7 @@ config = Script.get_config()
 FLINK_TAR_NAME = 'flink.tar.gz'
 STACK_VERSION = '3.0.1.0-187'
 # Flink dir name inside flink tarball
-FLINK_DIR_NAME = 'flink-1.13.2'
+FLINK_DIR_NAME = 'flink-1.17.2'
 
 flink_conf = config['configurations']['flink-conf']
 
@@ -51,14 +51,15 @@ parallelism_default = flink_conf['parallelism_default']
 fs_default_scheme = flink_conf['fs_default_scheme']
 
 # High Availability
-high_availability = flink_conf['high_availability']
+high_availability_type = flink_conf['high_availability_type']
 high_availability_storageDir = flink_conf['high_availability_storageDir']
 high_availability_zookeeper_quorum = flink_conf['high_availability_zookeeper_quorum']
 high_availability_zookeeper_client_acl = flink_conf['high_availability_zookeeper_client_acl']
+zookeeper_sasl_disable = flink_conf['zookeeper_sasl_disable']
 
 # Fault tolerance and checkpointing
 execution_checkpointing_interval = flink_conf['execution_checkpointing_interval']
-state_backend = flink_conf['state_backend']
+state_backend_type = flink_conf['state_backend_type']
 state_checkpoints_dir = flink_conf['state_checkpoints_dir']
 state_savepoints_dir = flink_conf['state_savepoints_dir']
 state_backend_incremental = flink_conf['state_backend_incremental']
@@ -73,9 +74,9 @@ rest_bind_address = flink_conf['rest_bind_address']
 web_submit_enable = flink_conf['web_submit_enable']
 io_tmp_dirs = flink_conf['io_tmp_dirs']
 classloader_resolve_order = flink_conf['classloader_resolve_order']
-taskmanager_network_memory_fraction = flink_conf['taskmanager_network_memory_fraction']
-taskmanager_network_memory_min = flink_conf['taskmanager_network_memory_min']
-taskmanager_network_memory_max = flink_conf['taskmanager_network_memory_max']
+taskmanager_memory_network_fraction = flink_conf['taskmanager_memory_network_fraction']
+taskmanager_memory_network_min = flink_conf['taskmanager_memory_network_min']
+taskmanager_memory_network_max = flink_conf['taskmanager_memory_network_max']
 
 # Flink Cluster Security Configuration
 security_kerberos_login_contexts = flink_conf['security_kerberos_login_contexts']

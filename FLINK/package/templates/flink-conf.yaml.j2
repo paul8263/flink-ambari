@@ -82,7 +82,7 @@ fs.default-scheme: {{fs_default_scheme}}
 
 # The high-availability mode. Possible options are 'NONE' or 'zookeeper'.
 #
-high-availability: {{high_availability}}
+high-availability.type: {{high_availability_type}}
 
 # The path where metadata for master recovery is persisted. While ZooKeeper stores
 # the small ground truth for checkpoint and leader election, this location stores
@@ -113,6 +113,8 @@ high-availability.zookeeper.quorum: {{high_availability_zookeeper_quorum}}
 high-availability.zookeeper.client.acl: {{high_availability_zookeeper_client_acl}}
 {% endif %}
 
+zookeeper.sasl.disable: {zookeeper_sasl_disable}
+
 #==============================================================================
 # Fault tolerance and checkpointing
 #==============================================================================
@@ -128,7 +130,7 @@ execution.checkpointing.interval: {{execution_checkpointing_interval}}
 # <class-name-of-factory>.
 #
 {% if state_backend != 'none' %}
-state.backend: {{state_backend}}
+state.backend.type: {{state_backend_type}}
 {% endif %}
 
 # Directory for checkpoints filesystem, when using any of the default bundled
@@ -235,14 +237,14 @@ classloader.resolve-order: {{classloader_resolve_order}}
 # no tuning. Adjusting them may be necessary in case of an "Insufficient number
 # of network buffers" error. The default min is 64MB, the default max is 1GB.
 #
-{% if taskmanager_network_memory_fraction != 'none' %}
-taskmanager.network.memory.fraction: {{taskmanager_network_memory_fraction}}
+{% if taskmanager_memory_network_fraction != 'none' %}
+taskmanager.memory.network.fraction: {{taskmanager_memory_network_fraction}}
 {% endif %}
-{% if taskmanager_network_memory_min != 'none' %}
-taskmanager.network.memory.min: {{taskmanager_network_memory_min}}
+{% if taskmanager_memory_network_min != 'none' %}
+taskmanager.memory.network.min: {{taskmanager_memory_network_min}}
 {% endif %}
-{% if taskmanager_network_memory_max != 'none' %}
-taskmanager.network.memory.max: {{taskmanager_network_memory_max}}
+{% if taskmanager_memory_network_max != 'none' %}
+taskmanager.memory.network.max: {{taskmanager_memory_network_max}}
 {% endif %}
 
 #==============================================================================
