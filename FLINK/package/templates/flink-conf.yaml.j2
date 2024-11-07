@@ -129,7 +129,7 @@ execution.checkpointing.interval: {{execution_checkpointing_interval}}
 # Supported backends are 'jobmanager', 'filesystem', 'rocksdb', or the
 # <class-name-of-factory>.
 #
-{% if state_backend != 'none' %}
+{% if state_backend_type != 'none' %}
 state.backend.type: {{state_backend_type}}
 {% endif %}
 
